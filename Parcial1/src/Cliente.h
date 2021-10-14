@@ -21,7 +21,7 @@ struct
   char nombreEmpresa[20];
   char cuit[20];
   char direccion[20];
-  char localidad[20];
+  int idLocalidad;
   int idPedido;
   int isEmptyClientes;
 }typedef eClientes;
@@ -44,10 +44,10 @@ int BuscarOcupadoClientes(eClientes listaClientes[], int tamClientes);
 int BuscarBajaClientes(eClientes listaClientes[], int tamClientes);
 
 
-eClientes PedirDatosClientes(int* retorno);
-int AltaClientes(eClientes listaTrabajos[], int tamClientes, int* id);
+eClientes PedirDatosClientes(int *retorno, eLocalidades listaLocalidades[], int tamLocalidades);
+int AltaClientes(eClientes listaTrabajos[], int tamClientes, int* id, eLocalidades listaLocalidades[], int tamLocalidades);
 int EliminarClientes(eClientes listaClientes[], int tamClientes);
-int ModificarClientes(eClientes listaClientes[], int tamClientes);
+int ModificarClientes(eClientes listaClientes[], int tamClientes, eLocalidades listaLocalidades[], int tamLocalidades);
 
 void MostrarAuxiliarCliente(eClientes auxiliarCliente);
 void MostrarUnCliente(eClientes unCliente);

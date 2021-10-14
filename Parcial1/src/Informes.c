@@ -314,30 +314,31 @@ dicha localidad.
 
 */
 
-int MostrarPedidosPendientes_PorLocalidad(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes)
+int MostrarPedidosPendientes_PorLocalidad(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes, eLocalidades listaLocalidades[], int tamLocalidades)
 {
 
 	int i;
-	char localidadRecibida[TAM_BUFFER];
+	int idLocalidadRecibida;
 	int resultado;
 	int retorno;
 	int flag;
 	flag = 0;
 	retorno = -1;
 
+	MostrarTodasLasLocalidades(listaLocalidades, tamLocalidades);
 
-	resultado = utn_getDescripcion(localidadRecibida, TAM_BUFFER,"Ingrese localidad a buscar: ", "Error.\n", 2);
+	resultado = utn_getNumero(&idLocalidadRecibida, "Ingrese ID de localidad a buscar", "Error", 0, 20, 2);
 
 	if(resultado == 0)
 	{
 		retorno = 0;
-		printf("Pedidos pendientes para %s", localidadRecibida);
+		printf("Pedidos pendientes para %d", idLocalidadRecibida);
 		for(i=0; i<tamPedidos; i++)
 		{
 			if(listaPedidos[i].isEmptyPedidos == PENDIENTE)
 			{
 
-				if(strcmp(localidadRecibida, listaClientes[i].localidad) == 0)
+				if(idLocalidadRecibida == listaClientes[i].idLocalidad)
 				{
 					MostrarUnCliente(listaClientes[i]);
 					retorno = 1;
@@ -353,6 +354,185 @@ int MostrarPedidosPendientes_PorLocalidad(ePedidos listaPedidos[], int tamPedido
 		retorno=1;
 	}
 
+
+	return retorno;
+
+}
+
+
+/*
+ * 3) Agregar los siguientes informes:
+a) Cliente con más pedidos pendientes.
+b) Cliente con más pedidos completados.
+c) Cliente con más pedidos.
+*/
+
+int ClienteConMasPedidos(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes)
+{
+
+	eAuxiliar auxiliar;
+	int i;
+	int j;
+	int maximo;
+	int retorno;
+	retorno = -1;
+
+	for(i=0; i<tamClientes; i++)
+		{
+		auxiliar[i].contadorClientes = 0;
+		auxiliar[i].contadorPedidos = 0;
+	}
+
+
+
+
+	for(i=0; i<tamClientes; i++)//recorro la lista de clientes y por cada uno recorro la lista de pedidos y cuento
+	{
+		for(j=0; j<tamPedidos; j++)
+		{
+			if(listaClientes[i].idClientes == listaPedidos[i].idCliente)
+			{
+				auxiliar[i].contadorPedidos++;
+			}
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)
+	{
+		if(i==0 || auxiliar[i].contadorPedidos>maximo)
+		{
+			maximo = auxiliar[i].contadorPedidos;
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)//auxiliar
+	{
+		if(auxiliar[i].contadorPedidos==maximo)
+		{
+			for(j=0; j<tamClientes; j++)//clientes
+			{
+				if(listaClientes[i].idClientes == listaPedidos[i].idCliente)
+				{
+					printf("El tipo con mas pedidos es: %s\n" , listaClientes[i].nombreEmpresa);
+					retorno = 0;
+				}
+			}
+		}
+	}
+
+	return retorno;
+
+}
+
+int ClienteConMasPedidosPendientes(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes)
+{
+
+	eAuxiliar auxiliar;
+	int i;
+	int j;
+	int maximo;
+	int retorno;
+	retorno = -1;
+	for(i=0; i<tamClientes; i++)
+	{
+		auxiliar[i].contadorClientes = 0;
+		auxiliar[i].contadorPedidos = 0;
+	}
+
+
+
+
+	for(i=0; i<tamClientes; i++)//recorro la lista de clientes y por cada uno recorro la lista de pedidos y cuento
+	{
+		for(j=0; j<tamPedidos; j++)
+		{
+			if(listaClientes[i].idClientes == listaPedidos[i].idCliente && listaPedidos[i].isEmptyPedidos == PENDIENTE)
+			{
+				auxiliar[i].contadorPedidos++;
+			}
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)
+	{
+		if(i==0 || auxiliar[i].contadorPedidos>maximo)
+		{
+			maximo = auxiliar[i].contadorPedidos;
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)//auxiliar
+	{
+		if(auxiliar[i].contadorPedidos==maximo)
+		{
+			for(j=0; j<tamClientes; j++)//clientes
+			{
+				if(listaClientes[i].idClientes == listaPedidos[i].idCliente)
+				{
+					printf("El tipo con mas pedidos pendientes es: %s\n" , listaClientes[i].nombreEmpresa);
+					retorno = 0;
+				}
+			}
+		}
+	}
+
+
+
+}
+
+
+int ClienteConMasPedidosCompletados(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes)
+{
+
+	eAuxiliar auxiliar;
+	int i;
+	int j;
+	int maximo;
+	int retorno;
+	retorno = -1;
+
+	for(i=0; i<tamClientes; i++)
+		{
+		auxiliar[i].contadorClientes = 0;
+		auxiliar[i].contadorPedidos = 0;
+	}
+
+
+
+
+	for(i=0; i<tamClientes; i++)//recorro la lista de clientes y por cada uno recorro la lista de pedidos y cuento
+	{
+		for(j=0; j<tamPedidos; j++)
+		{
+			if(listaClientes[i].idClientes == listaPedidos[i].idCliente && listaPedidos[i].isEmptyPedidos == COMPLETADO)
+			{
+				auxiliar[i].contadorPedidos++;
+			}
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)
+	{
+		if(i==0 || auxiliar[i].contadorPedidos>maximo)
+		{
+			maximo = auxiliar[i].contadorPedidos;
+		}
+	}
+
+	for(i=0; i<tamClientes; i++)//auxiliar
+	{
+		if(auxiliar[i].contadorPedidos==maximo)
+		{
+			for(j=0; j<tamClientes; j++)//clientes
+			{
+				if(listaClientes[i].idClientes == listaPedidos[i].idCliente)
+				{
+					printf("El tipo con mas pedidos completados es: %s\n" , listaClientes[i].nombreEmpresa);
+					retorno = 0;
+				}
+			}
+		}
+	}
 
 	return retorno;
 

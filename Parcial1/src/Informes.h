@@ -15,7 +15,7 @@
 struct
 {
 	int contadorClientes;
-	float acumuladorKilosPP;
+	float contadorPedidos;
 }typedef eAuxiliar;
 
 int AltaPedidos_ConIDClienteValidado(ePedidos listaPedidos[], int tamPedidos, int* idPedido,eClientes listaCliente[], int tamClientes);
@@ -26,5 +26,8 @@ int MostrarClientes_PedidoPendiente(ePedidos listaPedidos[], int tamPedidos, eCl
 int MostrarPedidoPendiente_ConCliente(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
 int MostrarPedidoCompletado_ConCliente(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
 float PromedioKilosPP_PorCliente(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
-int MostrarPedidosPendientes_PorLocalidad(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
+int MostrarPedidosPendientes_PorLocalidad(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes, eLocalidades listaLocalidades[], int tamLocalidades);
+int ClienteConMasPedidos(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
+int ClienteConMasPedidosPendientes(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
+int ClienteConMasPedidosCompletados(ePedidos listaPedidos[], int tamPedidos, eClientes listaClientes[], int tamClientes);
 #endif /* INFORMES_H_ */

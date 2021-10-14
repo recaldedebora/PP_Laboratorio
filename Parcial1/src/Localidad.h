@@ -46,7 +46,7 @@ int EliminarLocalidades(eLocalidades listaLocalidades[], int tamLocalidades);
 int ModificarLocalidades(eLocalidades listaLocalidades[], int tamLocalidades);
 
 void MostrarAuxiliarLocalidad(eLocalidades auxiliarCliente);
-void MostrarUnaLocalidad(eLocalidades unCliente);
-int MostrarTodosLosLocalidades(eLocalidades listaLocalidades[], int tamLocalidades);
+void MostrarUnaLocalidad(eLocalidades unaLocalidad);
+int MostrarTodasLasLocalidades(eLocalidades listaLocalidades[], int tamLocalidades);
 
 #endif /* LOCALIDAD_H_ */

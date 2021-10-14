@@ -29,7 +29,7 @@ void HarcodearClientes(eClientes listaClientes[], int tamClientes)//ADAPTAR A CL
     char nombreEmpresa[][30]={"Homero", "March", "Bart"};
     char cuit[][30]={"20-123456789-9", "21-14725869-6", "22-321654987-3"};
     char direccion[][30]={"Av. Mitre 3", "Calle falsa 123", "Alsina 150"};
-    char localidad[][30]={"Avellaneda", "Quilmes", "Lanus"};
+    int idLocalidad[]= { 1 , 3, 2};
     int idPedido[]={0,1,2};
 
 
@@ -41,7 +41,7 @@ void HarcodearClientes(eClientes listaClientes[], int tamClientes)//ADAPTAR A CL
 			strcpy(listaClientes[i].nombreEmpresa , nombreEmpresa[i]);
 			strcpy(listaClientes[i].cuit , cuit[i]);
 			strcpy(listaClientes[i].direccion , direccion[i]);
-			strcpy(listaClientes[i].localidad , localidad[i]);
+			listaClientes[i].idLocalidad = idLocalidad[i];
 			listaClientes[i].idPedido=idPedido[i];
 			listaClientes[i].isEmptyClientes = OCUPADO;
 
@@ -138,7 +138,7 @@ int eClientes_BuscarPorID(eClientes listaClientes[], int tamClientes, int ID)//v
 }
 
 ///////////////////  FIN BUSCAR /////////////////////
-eClientes PedirDatosClientes(int *retorno)
+eClientes PedirDatosClientes(int *retorno, eLocalidades listaLocalidades[], int tamLocalidades)
 {
 
 	eClientes auxiliar;
@@ -146,16 +146,24 @@ eClientes PedirDatosClientes(int *retorno)
 
 	if(utn_getDescripcion(auxiliar.nombreEmpresa, TAM_BUFFER,"\nIngrese nombre de la Empresa: ", "Error", 2)== 0 &&
 	utn_getCuit(auxiliar.cuit , TAM_BUFFER,"Ingrese cuit de la Empresa: ", "Error", 2)== 0 &&
-	utn_getDescripcion(auxiliar.direccion, TAM_BUFFER,"Ingrese direccion de la Empresa: ", "Error", 2)== 0 &&
-	utn_getDescripcion(auxiliar.localidad, TAM_BUFFER,"Ingrese localidad de la Empresa: \n", "Error", 2)== 0){
-		*retorno=0;
+	utn_getDescripcion(auxiliar.direccion, TAM_BUFFER,"Ingrese direccion de la Empresa: ", "Error", 2)== 0)
+	{
+		MostrarTodasLasLocalidades(listaLocalidades, tamLocalidades);
+		if(utn_getNumero(&auxiliar.idLocalidad, "Ingrese ID de localidad a buscar", "Error", 0, 20, 2)== 0)
+		{
+
+
+			*retorno=0;
+
+		}
+
 	}
 
     return auxiliar;
 }
 
 
-int AltaClientes(eClientes listaClientes[], int tamClientes, int* id)
+int AltaClientes(eClientes listaClientes[], int tamClientes, int* id, eLocalidades listaLocalidades[], int tamLocalidades)
 {
 
 	eClientes auxiliar;
@@ -174,7 +182,7 @@ int AltaClientes(eClientes listaClientes[], int tamClientes, int* id)
     else
     {
 
-    	 auxiliar = PedirDatosClientes(&datosOk);
+    	 auxiliar = PedirDatosClientes(&datosOk, listaLocalidades, tamLocalidades);
     	 if(datosOk == 0)
     	 {
 			 MostrarAuxiliarCliente(auxiliar);
@@ -246,7 +254,7 @@ int EliminarClientes(eClientes listaClientes[], int tamClientes)
 cambiar la dirección y la localidad. */
 
 
- int ModificarClientes(eClientes listaClientes[], int tamClientes)//adaptar a cliente
+ int ModificarClientes(eClientes listaClientes[], int tamClientes, eLocalidades listaLocalidades[], int tamLocalidades)//adaptar a cliente
  {
      int idIngresado;
      eClientes auxiliar;
@@ -280,7 +288,9 @@ cambiar la dirección y la localidad. */
                     	 utn_getDescripcion(auxiliar.direccion, tamClientes,"Ingrese nueva dirección: ", "Error", 2);
                      break;
                      case 2:
-                    	 utn_getDescripcion(auxiliar.localidad, tamClientes,"Ingrese nueva localidad: ", "Error", 2);
+                    	 MostrarTodasLasLocalidades(listaLocalidades, tamLocalidades);
+
+                    	 utn_getNumero(&auxiliar.idLocalidad, "Ingrese ID de localidad", "Error", 0, 20, 2);
                      break;
 
                      case 3:
@@ -312,20 +322,20 @@ cambiar la dirección y la localidad. */
 ////////////////MOSTRAR/////////////
 void MostrarAuxiliarCliente(eClientes auxiliarCliente)
 {
-    printf("\n♦%8s %5s %5s %5s\n", auxiliarCliente.nombreEmpresa,
+    printf("\n♦%8s %5s %5s %5d\n", auxiliarCliente.nombreEmpresa,
                                  auxiliarCliente.cuit,
                                  auxiliarCliente.direccion,
-                                 auxiliarCliente.localidad);
+                                 auxiliarCliente.idLocalidad);
 }
 
 
 void MostrarUnCliente(eClientes unCliente)
 {
-    printf("\n♦ID Cliente: %5d NOMBRE EMPRESA: %8s CUIT: %5s DIRECCION: %5s LOCALIDAD: %5s",  unCliente.idClientes,
+    printf("\n♦ID Cliente: %5d NOMBRE EMPRESA: %8s CUIT: %5s DIRECCION: %5s LOCALIDAD: %5d",  unCliente.idClientes,
                                                                                             unCliente.nombreEmpresa,
                                                                                             unCliente.cuit,
                                                                                             unCliente.direccion,
-                                                                                            unCliente.localidad);
+                                                                                            unCliente.idLocalidad);
 }
 
 

@@ -55,6 +55,12 @@ detergentes líquidos, etc.)
 de congelación de alimentos, tapas flexibles o bolsas de basura.)
 • PP: Polipropileno (Plásticos utilizados en la industria automovilística
 y en la construcción.) El resto de la basura recolectada es desechada
+
+
+3) Agregar los siguientes informes:
+a) Cliente con más pedidos pendientes.
+b) Cliente con más pedidos completados.
+c) Cliente con más pedidos.
  ============================================================================
  */
 
@@ -64,14 +70,16 @@ y en la construcción.) El resto de la basura recolectada es desechada
 #include <ctype.h>
 
 #include "Informes.h"
-#define TAM_CLIENTES 5
-#define TAM_PEDIDOS 10
+#define TAM_CLIENTES 100
+#define TAM_PEDIDOS 1000
+#define TAM_LOCALIDADES 5
 
 int main()
 {
 	setbuf(stdout,NULL);
     eClientes miCliente[TAM_CLIENTES];
     ePedidos miPedido[TAM_PEDIDOS];
+    eLocalidades miLocalidad[TAM_LOCALIDADES];
     int opcion;
     int idClientes =0;
     int estado;
@@ -96,13 +104,16 @@ int main()
         printf("8. Imprimir Pedidos procesados con datos del cliente\n");
         printf("9. Ingresar una localidad e indicar la cantidad de pedidos pendientes para dicha localidad. \n");
         printf("10. Cantidad de kilos de polipropileno reciclado promedio por cliente.\n");
+        printf("11. Cliente con más pedidos pendientes.\n");
+        printf("12. Cliente con más pedidos completados.\n");
+        printf("13. Cliente con más pedidos.\n");
         printf("0. Salir\n");
         printf("Elija una opcion:");
-        utn_getNumero(&opcion, "Ingrese opcion: ", "Error.", -1, 10, 2);
+        utn_getNumero(&opcion, "Ingrese opcion: ", "Error.", -1, 13, 2);
         switch(opcion)
         {
             case 1:
-            	estado = AltaClientes(miCliente,TAM_CLIENTES, &idClientes);
+            	estado = AltaClientes(miCliente,TAM_CLIENTES, &idClientes, miLocalidad, TAM_LOCALIDADES);
 
             	if(estado == 1){
             		printf("Alta con exito\n");
@@ -131,7 +142,7 @@ int main()
 
 
             case 2:
-                if(ModificarClientes(miCliente,TAM_CLIENTES)==0)
+                if(ModificarClientes(miCliente,TAM_CLIENTES, miLocalidad, TAM_LOCALIDADES)==0)
                 {
                 	printf("Modificacion confirmada\n");
                 }
@@ -212,7 +223,7 @@ int main()
 			break;
 
             case 9:
-            	estado4 = MostrarPedidosPendientes_PorLocalidad(miPedido,TAM_PEDIDOS,miCliente,TAM_CLIENTES);
+            	estado4 = MostrarPedidosPendientes_PorLocalidad(miPedido,TAM_PEDIDOS,miCliente,TAM_CLIENTES, miLocalidad, TAM_LOCALIDADES);
             	if(estado4==0){
             		printf("No hay pedidos pendientes para la localidad ingresada\n");
             	}
@@ -230,7 +241,17 @@ int main()
             	}
 			break;
 
+            case 11:
+            	ClienteConMasPedidos(miPedido, TAM_PEDIDOS,miCliente,TAM_CLIENTES);
+            break;
 
+            case 12:
+            	ClienteConMasPedidosPendientes(miPedido, TAM_PEDIDOS,miCliente,TAM_CLIENTES);
+			break;
+
+            case 13:
+            	ClienteConMasPedidosCompletados(miPedido, TAM_PEDIDOS,miCliente,TAM_CLIENTES);
+			break;
 
         }
     }while(opcion != -1);

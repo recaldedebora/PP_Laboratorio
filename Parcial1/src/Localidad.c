@@ -208,7 +208,7 @@ int EliminarLocalidades(eLocalidades listaLocalidades[], int tamLocalidades)
 	int confirmar;
 	int retorno = -1;
 
-	MostrarTodosLosLocalidades(listaLocalidades, tamLocalidades);
+	MostrarTodasLasLocalidades(listaLocalidades, tamLocalidades);
 	utn_getNumero(&idIngresado, "Ingrese el idLocalidades a eliminar: ", "Error", 0, 200, 2);//verificar que no pida rango
 	indice = eLocalidades_BuscarPorID(listaLocalidades, tamLocalidades, idIngresado);
 
@@ -239,7 +239,7 @@ cambiar la dirección y la localidad. */
      int opcion;
      int confirmar;
 
-     MostrarTodosLosLocalidades(listaLocalidades, tamLocalidades);
+     MostrarTodasLasLocalidades(listaLocalidades, tamLocalidades);
 
      utn_getNumero(&idIngresado, "Ingrese el id a modificar: ", "Error.", 0, 5000, 2);//cambiar
 
@@ -297,15 +297,15 @@ void MostrarAuxiliarLocalidad(eLocalidades auxiliarLocalidad)
 }
 
 
-void MostrarUnaLocalidad(eLocalidades unLocalidad)
+void MostrarUnaLocalidad(eLocalidades unaLocalidad)
 {
-    printf("\n♦ID Localidad: %5d NOMBRE LOCALIDAD: %8s", unLocalidad.idLocalidades,
-                                                         unLocalidad.nombreLocalidad);
+    printf("\n♦ID Localidad: %5d NOMBRE LOCALIDAD: %8s", unaLocalidad.idLocalidades,
+                                                         unaLocalidad.nombreLocalidad);
 }
 
 
 
-int MostrarTodosLosLocalidades(eLocalidades listaLocalidades[], int tamLocalidades)
+int MostrarTodasLasLocalidades(eLocalidades listaLocalidades[], int tamLocalidades)
 {
     int i;
 	printf("\n\t> LISTADO Localidades");
